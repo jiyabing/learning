@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script src='common.js'></script>
+		
+		<script>
+			function conf(){
+				var s = $('main').value;
+				if(s.length>6&&s.length<18){
+					$('d1').innerText = '通过';
+					$('d1').style.color = 'green';
+				}else{
+					$('d1').innerText = '失败';
+					$('d1').style.color = 'red';
+				}
+			}
+		</script>
+		
+		<input id='main' type='text'>
+		<button onclick='conf()'>验证</button>
+		<div id='d1'></div>
+	
+    </body>
+</html>

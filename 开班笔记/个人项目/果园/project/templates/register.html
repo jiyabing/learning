@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页</title>
+</head>
+<body>
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    用户名：
+    <input type="text" name="user" id="user">
+    <br>
+    <div style="color: red">
+        {{ message0 }}
+        {{ message1 }}
+    </div>
+    密码：
+    <input type="password" name="pwd" id="pwd">
+    <br>
+    确认密码：
+    <input type="password" name="cpwd" id="cpwd">
+    <br>
+    <div style="color: red">
+        {{ message2 }}
+    </div>
+    手机号码：
+    <input type="text" name="phone" id="phone">
+    <br>
+    电子邮箱：
+    <input type="text" name="email" id="email">
+    <br>
+    <input type="submit" value="注册">
+    <a href="{% url 'login' %}">登录</a>
+</form>
+</body>
+</html>

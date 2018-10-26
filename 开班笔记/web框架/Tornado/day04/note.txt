@@ -1,0 +1,108 @@
+1.查询所有blog及其作者信息
+    select blog_title,user_name from tb_blog
+    join tb_user
+    on tb_blog.blog_user_id = tb_user.user_id;
+
+2.查询所有blog及其作者信息，显示时，将一个作者写得所有博客标题放到一行显示
+    select user_name,group_concat(blog_title) from tb_user
+    join tb_blog
+    on tb_user.user_id = tb_blog.blog_user_id
+    group by user_name;
+
+3.查询所有用户及其写得blog（user_name,blog_title）
+    select user_name,blog_title
+    from tb_user
+    left join tb_blog
+    on user_id = blog_user_id;
+
+4.查询所有得博客及其标签信息
+    step1.从tb_blog_tag找有标签的博客id以及他们的标签id
+        select rel_blog_id,rel_tag_id
+        from tb_blog_tag;
+
+    step2.将step1产生得结果集(派生表，逻辑表)与标签表进行联合查询，找到标签id对应得具体标签内容
+        select rel_blog_id,tag_content
+        from tb_tag
+        join (select rel_blog_id,rel_tag_id from tb_blog_tag)t
+        on tag_id = rel_tag_id;
+
+    step3.将一篇博客得多个标签放到一行显示
+        select rel_blog_id,group_concat(tag_content)
+        from tb_tag
+        join (select rel_blog_id,rel_tag_id from tb_blog_tag)t
+        on tag_id = rel_tag_id
+        group by rel_blog_id;
+
+    step4.将博客表tb_blog与step3产生得结果集进行联合查询，找到博客得具体信息
+        select blog_id,blog_title,tc
+        from tb_blog
+        left join (
+            select rel_blog_id,group_concat(tag_content)tc
+            from tb_tag
+            join (
+                select rel_blog_id,rel_tag_id from tb_blog_tag
+                )t
+            on tag_id = rel_tag_id
+            group by rel_blog_id
+            )t1
+        on blog_id = rel_blog_id;
+
+5.查询所有的博客及其标签信息和作者信息
+    select user_name,user_avatar,blog_id,blog_title,tc
+    from tb_user
+    join (
+            select blog_id,blog_title,tc,blog_user_id
+            from tb_blog
+            left join (
+                select rel_blog_id,group_concat(tag_content)tc
+                from tb_tag
+                join (
+                    select rel_blog_id,rel_tag_id from tb_blog_tag
+                    )t
+                on tag_id = rel_tag_id
+                group by rel_blog_id
+                )t1
+            on blog_id = rel_blog_id
+        )t2
+    on user_id = blog_user_id;
+
+6.查询所有的博客及其标签信息，作者信息和评论条数
+    step1.去评论表中tb_comment中查询每一条博客的评论条数
+        select comment_blog_id,count(*)
+        from tb_comment
+        group by comment_blog_id;
+
+    step2.将第5题答案与step1进行联合查询
+        select user_name,blog_title,blog_content,tc,c
+        from (
+                select comment_blog_id,count(*)c
+                from tb_comment
+                group by comment_blog_id
+            )t3
+
+        right join (
+                select user_name,user_avatar,blog_id,blog_title,blog_content,tc
+                from tb_user
+                join (
+                        select blog_id,blog_title,blog_content,tc,blog_user_id
+                        from tb_blog
+                        left join (
+                            select rel_blog_id,group_concat(tag_content)tc
+                            from tb_tag
+                            join (
+                                select rel_blog_id,rel_tag_id from tb_blog_tag
+                                )t
+                            on tag_id = rel_tag_id
+                            group by rel_blog_id
+                            )t1
+                        on blog_id = rel_blog_id
+                    )t2
+                on user_id = blog_user_id
+            )t4
+        on comment_blog_id = blog_id;
+
+7.利用pymysql操作数据库步骤
+    1.建立与数据库的连接
+    2.如果step1成功，利用连接获得一个游标(cursor)
+    3.利用游标发送SQL语句，操作数据库
+    4.如果有需要，利用游标获取数据库的返回结果集

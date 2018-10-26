@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script>
+			//确认框confirm('提示内容')
+			function show(){
+				if(confirm('确定删除吗？')){
+					alert('点击了确认');
+				}else{
+					alert('点击了取消');
+				}
+			}
+			
+			//周期性定时器
+			var ret;
+			function showAlert(){
+				ret = setInterval(function(){alert('有人吗？没人过会再来')},3000);
+			}
+			showAlert()
+			
+			
+			function clearret(){
+				clearInterval(ret);
+			}
+			
+			//一次性定时器
+			function timeout(){
+				if(confirm('确定要关闭网页吗？')){
+					//setTimeout(function(){window.close()},5000);
+					setTimeout(window.close,5000);
+				}
+			}
+			
+			function gourl(){
+				location.href='http://www.baidu.com';
+			}
+		</script>
+		
+		<button onclick='show()'>确认框</button>
+		<button onclick='clearret()'>清除定时器</button>
+		<button onclick='timeout()'>关闭网页</button>
+		<button onclick='gourl()'>网页跳转</button>
+    </body>
+</html>

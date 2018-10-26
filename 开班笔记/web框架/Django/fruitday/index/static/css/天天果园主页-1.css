@@ -1,0 +1,91 @@
+body,h1,h2,h3,h4,h5,h6,p,ol,ul{
+	margin:0px;
+}
+
+body{
+	font-size:12px;
+}
+
+img{
+	vertical-align:bottom;
+}
+
+#d{
+	width:990px;
+	margin:0px auto;
+}
+
+/*消除浮动带来的高度影响*/
+div.item>p.p1{
+	clear:both;
+}
+
+div.item>p.title{
+	/*上边框，上外边距，上内边距，下外边距，行高*/
+	border-top:1px solid #ccc;
+	margin-top:25px;
+	padding-top:15px;
+	margin-bottom:10px;
+	line-height:42px;
+}
+
+div.item>p.title>a{
+	/*取消下划线，文本颜色，右浮动*/
+	text-decoration:none;
+	color:#333;
+	float:right;
+}
+
+div.item>p.title>a:hover{
+	text-decoration:underline;
+}
+
+div.list>div{
+	/*宽度：190，左浮动，右外边距*/
+	width:190px;
+	float:left;
+	margin-right:10px;
+	margin-bottom:10px;
+}
+
+div.list>div>p{
+	/*溢出隐藏*/
+	overflow:hidden;
+}
+
+div.list>div.no-margin{
+	margin-right:0px;
+}
+
+div.list>div>p img{
+	width:190px;
+	
+	/*声明过渡*/
+	transition-property:all;
+	transition-duration:0.5s;
+}
+
+div.list>div>p img:hover{
+	/*放大*/
+	transform:scale(1.1);
+	
+}
+
+div.list div.content>a.cart{
+	float:right;
+	margin-top:3px;
+}
+
+div.list div.content>p{
+	color:#555;
+	margin:5px 0px;
+}
+
+div.list div.content>div{
+	color:#999;
+	margin-left:5px;
+}
+
+div.list div.content{
+	cursor:pointer;
+}

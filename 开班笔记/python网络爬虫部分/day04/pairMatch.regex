@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ProjectOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RegexName>pairMatch</RegexName>
+  <RegexDescription />
+  <RegexText>(.*?)=(.*?)&amp;</RegexText>
+  <ReplaceText>$1:$2
+</ReplaceText>
+  <SourceText>i=d%0A&amp;from=AUTO&amp;to=AUTO&amp;smartresult=dict&amp;</SourceText>
+  <Command>Replace</Command>
+  <RegexOptions>None</RegexOptions>
+  <Detail>Groups</Detail>
+  <MaxMatches>1000</MaxMatches>
+  <Sort>Position</Sort>
+  <WordWrap>true</WordWrap>
+  <Format>Auto</Format>
+  <IncludeEmptyGroups>true</IncludeEmptyGroups>
+  <Language>VisualBasic</Language>
+  <VerbatimStrings>false</VerbatimStrings>
+  <InstanceMethods>true</InstanceMethods>
+  <AssumeImports>true</AssumeImports>
+  <GenerateLoop>true</GenerateLoop>
+  <IncludeComment>true</IncludeComment>
+  <CopyCodeOnExit>true</CopyCodeOnExit>
+</ProjectOptions>

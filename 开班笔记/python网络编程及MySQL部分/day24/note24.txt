@@ -1,0 +1,208 @@
+1.字符类型的宽度和数值类型的宽度的区别
+	1.数值类型的宽度仅仅为显示宽度，只用于select查询显示，和占用的
+	  存储空间大小无关，可用zerofill(零填充)查看效果
+	2.字符类型的宽度超过则无法存储
+
+2.where条件子句（配合查询、修改、删除操作）
+	1.语法格式
+		select * from 表名 where 条件;
+
+3.表记录管理
+	1.删除表记录
+		1.delete from 表名 where 条件;
+		2.delete from 表名;(删除表中的所有记录)
+	2.更新表记录
+		update 表名 set 字段名1=值1，字段名2=值2，... where 条件
+		注：如果不加'where 条件'子句会将更新表中所有记录
+
+4.运算符操作
+	1.数值比较和字符比较
+		数值比较运算符：= != > < >= <=
+		字符比较运算符：= !=
+	2.逻辑比较
+		运算符：
+			and(两个或多个条件同时满足)
+			or(两个或多个条件有一个满足)
+	3.范围内比较
+		运算符：between and、in、not in
+		语法：
+			between 值1 and 值2
+			in(值1，值2，...,值N)
+			not in(值1，值2，...,值N)
+	4.匹配空、非空
+		1.空：is null
+		2.非空：is not null
+		注：
+			null:空值，必须用is 或者is not 去匹配
+			'':空字符串，用 = 或者 != 去匹配
+	5.模糊比较
+		where 字段名 like 表达式；
+		表达式：
+			_:匹配单个字符
+			%:匹配0到多个字符（null不会被统计）
+	6.正则匹配查询（regexp）
+		语法：
+			where 字段名 regexp '正则表达式';
+		正则表达式符号:
+			^ : 以...开头
+				例：^[0-9] #匹配以数字开头
+			
+			$ : 以...结尾
+				例：[0-9]$ #匹配以数字结尾
+			
+			. : 匹配任意一个字符
+			
+			[]: 包含...内容
+				[0-9]:匹配带数字的
+				[a-z]:匹配带小写字母的
+				[A-Z]:匹配带小写字母的
+			
+			*: 星号前面的字符出现0次或者多次
+
+5.SQL查询
+	1.总结（执行顺序）
+		1)where ...
+		2)group by ...
+		3)select ... 聚合函数 from 表名
+		4)having ...
+		5)order by ...
+		6)limit ...
+	
+	2.order by
+		作用：
+			给查询的结果进行排序
+		语法格式：
+			order by 字段名 排序方式;
+			asc(默认)：升序   desc：降序
+	
+	3.limit (永远放在SQL语句的最后写)
+		作用：
+			限制显示查询记录的个数
+		用法：
+			limit n : 显示n条记录
+			limit m,n : 从第m+1条开始，显示n条记录
+			注：m的值是从0开始计数的
+		
+	4.聚合函数
+		分类：
+			avg(字段名)：求字段的平均值
+			sum(字段名)：求和
+			max(字段名)：求最大值
+			min(字段名)：求最小值
+			count(字段名)：统计该字段记录的个数
+		示例：
+			1.攻击力最强值是
+				select max(gongji) as best from sanguo;
+			
+			2.统计一下id 和 name两个字段分别有多少条记录
+				select count(id),count(name) from sanguo;
+			注：空值null不会被统计，空字符串''会被统计
+			
+			3.统计蜀国英雄攻击值大于200的英雄数量
+				select count(*) from sanguo where country='蜀国' and gongji>200;
+	
+	5.group by（先分组，在聚合）
+		作用：给查询的结果进行分组
+		示例：
+			1.统计sanguo表中一共有几个国家
+			  select country from sanguo group by country;
+			
+			2.计算所有国家的平均攻击力
+			  select country,avg(gongji) from sanguo group by country;
+			
+			3.查找所有国家中英雄数量最多的前2名的国家名称及英雄数量
+			  select country,count(*) as numbers from sanguo 
+			  group by country 
+			  order by numbers desc 
+			  limit 2;
+		注意：
+			1.group by之后的字段名必须要为select之后的字段名
+		    2.如果select之后的字段没有在group by语句之后，则必须要对  该字段进行聚合处理（聚合函数）
+	
+	6.having
+		作用：对查询的结果进行进一步筛选
+		示例：
+			1.找出平均攻击力大于105的国家的前2名，显示国家名称和平均攻击   力
+		      select country,avg(gongji) as pjgj from sanguo
+		      group by country
+		      having pjgj>105
+		      order by pjgj desc
+		      limit 2
+		
+		注意：
+			1.having 语句通常与group by语句联合使用，用来过滤由group by
+			  语句返回的记录集
+			2.having语句的存在弥补了where条件子句不能与聚合函数联合使用
+			  的不足，where操作的是表中实际存在的字段，having操作的是聚合
+			  函数生成的显示列
+	
+	7.distinct
+		作用：
+			不显示字段的重复值
+		示例：
+			1.sanguo表中一共有多少哪些个国家？
+			  select distinct country from sanguo;
+			
+			2.计算蜀国一共有多少个英雄？
+			  select count(distinct name) from sanguo
+			  where
+			  country = '蜀国';
+		注意：
+			1.distinct处理的是distincthe和from之间的所有字段，所有字段值
+			  必须完全相同才可以去重
+			2.distinct不能对任何字段做聚合处理
+	
+	8.查询表记录时可以做数学运算
+		1.运算符
+			+ - * % /
+		示例：
+			查询时显示所有英雄的攻击力*10
+			select name,gongji*10,country as 攻击力 from sanguo;
+
+6.约束
+	作用：
+		为了保证数据的完整性、一致性、有效性，可以限制无效色数据插入到数
+		据表中
+	约束分类：
+		1.默认约束（default）
+			作用：
+				在插入记录时，如果不给该字段赋值，则使用默认值
+			格式：
+				字段名 数据类型 default 默认值,
+		
+		2.非空约束
+			作用：
+				不允许该字段的值有空值null记录
+			格式：
+				字段名 数据类型 not null,
+
+7.索引
+	定义：
+		对数据库中表的一列或者多列的值进行排序的一种结构(mysql中索引
+		用Btree方式)
+	
+	索引的优点：
+		可以加快数据的检索速度
+	
+	索引的缺点：
+		1.当对表中的数据进行增加、修改、删除的时候，索引需要动态维护，降
+		  低了数据的维护速度
+		2.索引需要占用物理存储空间(数据库目录/var/lib/mysql)
+	
+	索引的示例：
+		1.运行insert_.py 文件，插入100万条记录
+		2.开启性能分析
+			show variables like '%pro%';
+			set profiling = 1;
+		3.执行查询语句
+			select name from t1 where name='lucy9999';
+		4.查看性能分析结果
+			show profiles;
+		5.在name字段创建索引
+			create index name on t1(name);
+		6.执行查询语句
+			select name from t1 where name='lucy9999';
+		7.查看性能分析结果
+			show profiles;
+		8.关闭性能分析
+			set profiling = 0;

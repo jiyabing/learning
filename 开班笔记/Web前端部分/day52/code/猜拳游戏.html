@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script>
+			var n = parseInt(Math.random()*100)+1;
+			console.log(n);
+			do{
+				var input=prompt('请输入1-100之间的一个数');
+				if(input>n){
+					console.log('大了');
+				}
+				else if(input<n){
+					console.log('小了');
+				}
+				else if(input==n){
+					console.log('对了');
+				}
+				else if(input=='exit'){
+					console.log('垃圾游戏，不玩了');
+				}
+			}while((input != 'exit')&&(input!=n));
+		</script>
+    </body>
+</html>

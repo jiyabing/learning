@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+    	<input id='name' type='text' placeholder='商品名称'>
+		<input id='price' type='text' placeholder='商品价格'>
+		<input id='num' type='text' placeholder='购买数量'>
+		<button onclick='addData()'>增加</button>
+		<table id='t1' border='1'>
+			<thead>
+				<tr>
+					<td>商品名称</td>
+					<td>商品价格</td>
+					<td>购买数量</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			
+			<tbody id='body'></tbody>
+		
+		</table>
+		
+		<script src='common.js'></script>
+		<script>
+			function addData(){
+				//1.获取三个文本框的值并将值赋给td
+				var name = $('name').value;
+				var price = $('price').value;
+				var num = $('num').value;
+				var tdName = add(name);
+				var tdPrice = add(price);
+				var tdNum = add(num);
+				var tdOper = document.createElement('td');
+				var btnUpdate = document.createElement('button');
+				var btnDelete = document.createElement('button');
+				btnUpdate.innerHTML = '修改';
+				btnDelete.innerHTML = '删除';
+				
+				//将删除修改添加到tdOper
+				tdOper.appendChild(btnUpdate);
+				tdOper.appendChild(btnDelete);
+				
+				var tr = document.createElement('tr');
+				tr.appendChild(tdName);
+				tr.appendChild(tdPrice);
+				tr.appendChild(tdNum);
+				tr.appendChild(tdOper);
+				
+				//将tr添加到tbody中
+				$('body').appendChild(tr);	
+			}
+			
+			function add(data){
+				var td = document.createElement('td');
+				td.innerHTML = data;
+				return td;
+				
+			}
+		</script>
+		
+	</body>
+</html>

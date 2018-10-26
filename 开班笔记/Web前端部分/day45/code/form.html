@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='utf8'>
+		<title>表单</title>
+	</head>
+	
+	<body>
+		<form action='login' method='get'>
+			<p>
+				用户名称：
+				<input type='text' name='uname'>
+			</p>
+			<p>
+				用户密码：
+				<input type='password' name='upwd' placeholder='6-18位数字和字母'> 
+			</p>
+			<p>
+				<input type='submit'>
+				<input type='reset'>
+				<input type='button'>
+			</p>
+			<p>
+				用户性别：
+				<input type='radio' name='gender' value='M' checked>
+				男
+				<input type='radio' name='gender' value='F'>
+				女
+			</p>
+			<p>
+				用户爱好：
+				<input type='checkbox' name='hobby' value='0'>坑
+				<input type='checkbox' name='hobby' value='1'>蒙
+				<input type='checkbox' name='hobby' value='2'>拐
+				<input type='checkbox' name='hobby' value='3'>骗
+			</p>
+			
+			<!--隐藏域-->
+			<p>
+				<input type='hidden' name='uid' value='123456'>
+			</p>
+			
+			<p>
+				用户头像：
+				<input type='file' name='uimg'>
+			</p>
+			
+			<p>
+				自我介绍：
+				<textarea name='info' cols='50' rows='5'></textarea>
+			</p>
+			
+			<p>
+				用户学历：
+				<select name=''>
+					<option value='0'>小学</option>
+					<option value='1'>初中</option>
+					<option value='2'>高中</option>
+				</select>
+			</p>
+		</form>
+	</body>
+<html>

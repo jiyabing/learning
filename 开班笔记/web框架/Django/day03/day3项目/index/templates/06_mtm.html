@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h1>作者：{{author.name}}</h1>
+    <h3>年龄：{{author.age}}</h3>
+    <h2>合作出版社</h2>
+    {% for publisher in publishers %}
+        <h3>{{forloop.counter}}:{{publisher.name}}</h3>
+    {% endfor%}
+
+    <div>================================</div>
+
+    <h1>{{publisher.name}}</h1>
+    <h3>签约作家</h3>
+    {% for author in authors %}
+        <span>{{forloop.counter}}:{{author.name}}</span>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+    	<script>
+			function replaceMsg(){
+				var s = '收垃圾，倒垃圾，你个垃圾！！！';
+				//声明正常表达式，全局匹配
+				var reg = /垃圾/g;
+				s1 = s.replace(reg,'**');
+				console.log(s1);
+				
+				var l = s.match(reg);
+				console.log(l);
+			}
+			
+			function replaceStr(){
+				var s = "Microsoft is a big company,microsoft's color is red and has MICROSOFT logo like microsoft";
+				var reg = /microsoft/ig;
+				var l = s.match(reg);
+				console.log('出现microsoft'+l.length+'次');
+				s1 = s.replace(reg,'微软');
+				console.log(s1);
+			}
+		</script>
+		<button onclick = 'replaceMsg()'>匹配替换</button>
+		<button onclick = 'replaceStr()'>microsoft替换</button>
+	</body>
+</html>

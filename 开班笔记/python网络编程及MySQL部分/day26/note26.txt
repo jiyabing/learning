@@ -1,0 +1,223 @@
+1.MySQL用户账户管理
+	1.开启MySQL远程连接
+		1.sudo -i
+		2.cd /etc/mysql/mysql.conf.d/
+		3.vi mysqld.cnf
+			#bind-address = 127.0.0.1
+			或者
+			bind-address = 0.0.0.0
+		4./etc/init.d/mysql restart
+	
+	2.添加授权用户
+		1.使用root用户连接到服务器
+			mysql -uroot -p
+		2.添加新的授权用户
+			create user '用户名'@'IP地址' identified by '密码';
+			create user 'tiger'@'%' identified by '123456';
+			IP地址的表示方式：
+				1.% 表示用户可以从任何地址连接到服务器
+				2.localhost 用户只能从本地连接
+				3.指定一个IP 表示用户只能从此ip连接到服务器
+	
+	3.给用户授权
+		grant 权限列表 on 库.表 to '用户名'@'IP地址' with grant option;
+		例：grant all privileges on *.* to 'tiger'@'%' with grant option;
+		权限列表：
+			select,update,delete,insert,alter,drop,create,...
+			all privileges 表示所有权限
+		库.表:
+			*.* 表示所有库的所有表
+	
+	4.查看授权用户
+		select user,host from mysql.user;
+	
+	5.删除授权用户
+		drop user '用户名'@'IP地址'；
+
+2.数据备份(mysqldump,在Linux终端中操作)
+	1.命令格式：
+		mysqldump -uroot -p 源库名 > 路径/xxx.sql
+		例：mysqldump -uroot -p studb > /home/tarena/studb.sql
+	2.源库名的表示方式：
+		--all-databases 备份所有库
+		库名            备份单个库
+		-B 库1 库2...   备份多个库
+		库名 表1 表2... 备份指定库的指定表
+	3.练习：
+		1.备份所有库 all-mysql.sql 放到用户主目录下的mydata目录中
+		mysqldump -uroot -p --all-databases > mydata/all-mysql.sql
+		
+		2.备份indexdb 库中的 省，市，县三张表scx.sql
+		mysqldump -uroot -p indexdb 省 市 县 > mydata/scx.sql
+		
+		3.备份MOSHOU 和 indexdb 库，命名为MSind.sql
+		mysqldump -uroot -p -B MOSHOU indexdb > mydata/MSind.sql
+
+3.数据恢复(在Linux终端中操作)
+	1.命令格式：
+		mysql -u用户名 -p 目标库名 < 路径/xxx.sql
+
+4.备份种类
+	完全备份：mysqldump
+	增量备份：binlog日志、xbackup工具
+
+5.从所有库的备份文件中恢复某一个库(--one-database)
+	mysql -u用户名 -p --one-database 目标库名 < all-mysql.sql
+	注意：
+		1.恢复是必须先创建空库
+		2.恢复库时库中新增的表不会删除
+
+6.事务和事务回滚
+	定义：
+		一件事从开始发生到结束的整个过程
+	作用：
+		确保数据的一致性
+	事务和事务回滚的应用：
+		1.mysql中默认sql语句会自动commit到数据库
+			show variables like 'autocommit';
+		2.事务应用
+			1.开启事务
+				mysql> start transaction;
+				#此时autocommit被禁用，SQL命令不会对数据库中数据做修改
+			2.终止事务
+				mysql> commit;
+				或者
+				mysql> rollback
+			3.注意：
+				1.事务和事务回滚只针对于表记录的增，删，改，对创建库、创
+				   建表的操作无效
+
+7.存储引擎
+	定义：
+		是用来处理 表（table） 的处理器
+	
+	存储引擎基本操作：
+		1.查看已有表的存储引擎
+			show create table 表名； #engine...
+		2.创建表是指定存储引擎
+			create table 表名(...)engine=myisam;
+		3.查看所有的存储引擎
+			mysql> show engines;
+	
+	工作中使用的存储引擎：
+		innodb:
+			特点：
+				1.共享表空间
+					表名.frm  表结构
+					表名.ibd  表记录和索引信息
+				2.支持行级锁
+		
+		myisam：
+			特点：
+				1.独享表空间
+					表名.frm  表结构
+					表名.myd  表记录
+					表名.myi  索引信息
+				2.支持表级锁
+	
+	锁：
+		1.加锁的目的
+			解决客户端并发访问的冲突问题
+		
+		2.锁的类型
+			读锁(select)：又叫共享锁
+			  当发起select时，会自动加上锁
+			  加读锁之后不能更改表中内容，但可以进行查询
+			写锁(insert,update,delete)：
+			  又叫互斥锁或者排他锁
+		
+		3.锁粒度
+			表级锁
+			行级锁
+			###操作完成后会自动释放锁
+	
+	如何决定使用哪种存储引擎：
+		1.执行查询操作多的表使用myisam存储引擎(使用innnodb浪费资源)
+		2.执行写操作比较多的表使用innodb存储引擎
+	
+	更改表的默认存储引擎：
+		修改配置文件/etc/mysql/mysql.conf.d/mysqld.cnf
+		在[mysqld]中添加以下语句
+		default-storage-engine = myisam(存储引擎名)
+	
+	memory存储引擎：
+		memory:表记录存储在内存中
+			表名.frm 表结构
+		注：
+			服务重启之后表结构在，表记录都消失
+
+8.MySQL调优
+	1.选择合适的存储引擎
+		经常用来读的表使用myisam存储引擎，其余的表都用innodb存储引擎
+	
+	2.SQL语句调优(尽量避免全表扫描)
+		1.在select where order by 常涉及到的字段上建立索引
+		2.where子句中不使用 !=,否则将放弃使用索引进行全表扫描
+		3.尽量避免用NULL值普判断，否则会全表扫描
+		4.尽量避免用 or 来连接条件，否则会全表扫描
+			示例：
+			优化前：
+				select id from t1 where id=10 or id=20;
+			优化后：
+				select id from t1 where id=10
+				union all
+				select id from t1 where id=20;
+		5.模糊查询尽量避免使用前置 % ,导致全表扫描
+		6.尽量避免 in 和 not in,导致全表扫描 
+			示例：
+			优化前：
+				select id from t1 where id in(1,2,3);
+			优化后：
+				select id from t1 where id between 1 and 3;
+		7.尽量避免使用select * ...,要用具体的字段列表代替 *,不要返回用不
+		  到的字段
+
+9.Python数据库编程
+	1.python数据库接口(python DB-API)
+		为开发人员提供的数据库应用编程接口
+	2.支持的数据库服务软件
+		mysql、Oracle、SQL_Server、mongodb..
+	3.python 提供的操作mysql模块
+		python3:pymysql
+		python2:MySQLdb
+	4.pymysql模块使用流程
+		1.建立数据库连接
+		2.创建游标对象
+		3.使用游标对象的方法操作数据库
+		4.提交commit
+		5.关闭游标对象
+		6.关闭数据库连接
+	5.建立数据库连接
+		对象名 = pymysql.connect('主机地址','用户名','密码'[,'库名']
+								 [,charset='utf8'])
+		2.connect连接对象支持的方法
+			1.cursor() 创建一个游标对象db.cursor()
+			2.commit() 提交到数据库执行(表记录增删改)
+			3.rollback() 回滚
+			4.close() 关闭数据库的连接
+		3.游标对象支持的方法
+			1.execute('SQL命令') 执行SQL命令
+			2.fetchone()   取得结果集的第一条记录
+			3.fetchmany(n) 取得结果集的 n 条记录
+			4.fetchall()   取得结果集的所有记录
+			5.close()      关闭游标对象
+
+10.Mysql workbench(图形化界面管理工具)
+
+11.ER模型&ER图
+	1.定义：
+		ER模型即 实体 - 关系 模型
+		ER图即 实体关系图
+	
+	2.三个概念
+		1.实体
+		2.属性
+		3.关系
+			定义：
+				实体之间的关系
+			分类
+				一对一关系(1:1)
+				一对多关系(1:n)
+				多对多关系(m:n)
+		4.ER图的绘制
+			1.矩形框代表实体，菱形框代表关系，椭形代表属性

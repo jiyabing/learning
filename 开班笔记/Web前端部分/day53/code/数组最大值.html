@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+    	<script>
+			//声明升序函数
+			function sortAsc(a,b){
+				return a-b;
+			}
+			
+			var arr = [3,2,21,5,34,7,2];
+			var max = arr[0];
+			var input = prompt();
+			for(var i=1;i<arr.length;i++){
+				//console.log(arr[i]);
+				if(arr[i] > max){
+					max = arr[i];
+				}
+			}
+			console.log(max);
+			var c=0;
+			for(var i=0;i<arr.length;i++){
+				if(input != arr[i]){
+					c += 1;
+				}else {
+					console.log(input+'的下标为：'+i);
+				}
+			}
+			if(c==arr.length){
+				console.log('不存在');
+			}
+			
+			console.log(arr.sort(sortAsc));
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+		<style>
+			.test{
+				color:red;
+				font-weight:blod;
+				font-size:24px;
+			}
+		</style>
+    </head>
+	
+
+    <body>
+		<script src = 'common.js'></script>
+	
+		<script>
+			function showInfo(){
+				//获取id为d1的元素
+				var d1 = document.getElementById('d1');
+				//获取该元素的内容
+				console.log(d1.innerHTML);
+			}
+			
+			function test1(){
+				var elem = $('user');
+				var s = elem.value;
+				var d2 = $('d2');
+				d2.innerHTML = '<h1>'+s+'</h1>';
+			}
+			
+			function setAttr(){
+				//为id为d1的元素动态绑定class属性，值为test
+				$('d1').setAttribute('class','test');
+			}
+			
+			function getAttr(){
+				console.log($('d1').getAttribute('class'));
+			}
+			
+			function removeAttr(){
+				$('d1').removeAttribute('class');
+			}
+		</script>
+		
+		
+    	<div id='d1'>
+			<h1>这是id为d1中的h1元素</h1>
+		</div>
+		<button onclick = 'showInfo()'>获取d1的内容</button>
+		<button onclick = 'setAttr()'>增加class属性</button>
+		<button onclick = 'getAttr()'>查看class属性</button>
+		<button onclick = 'removeAttr()'>移除class属性</button>
+		
+		
+		<input type='text' id='user'>
+		<button onclick = 'test1()'>获取文本框内容</button>
+		<div id='d2'></div>
+		
+		
+		
+		
+	</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+		<style>
+			#d{
+				width:1000px;
+				margin:auto;
+				
+			}
+			
+			#dt{
+				color:#999;
+				width:1000px;
+				margin-bottom:36px;
+				padding-bottom:16px;
+				border-bottom:1px solid #999;
+			}
+			
+			#dt>h2{
+				font-weight:normal;
+				margin:0px;
+			}
+			
+			#dl{
+				width:500px;
+				height:400px;
+				float:left;
+			}
+			
+			#dr{
+				width:500px;
+				
+				float:right;
+			}
+			
+			#d1,#d2{
+				/*border:1px solid;*/
+				width:450px;
+				height:40px;
+				margin-bottom:40px;
+				margin-left:50px;
+			}
+			
+			#d3,#d4{
+				/*border:1px solid;*/
+				width:300px;
+				height:40px;
+				margin-bottom:20px;
+				margin-left:200px;
+				line-height:40px;
+			}
+			
+			#user,#pwd{
+				width:300px;
+				height:40px;
+				/*边框设置*/
+				border:1px solid #ccc;
+				/*取消轮廓*/
+				outline:none;
+				/*内边距*/
+				padding:1px 12px;
+				/**/
+				box-sizing:border-box;
+				float:left;
+				
+			}
+			
+			span{
+				float:left;
+				line-height:40px;
+				width:100px;
+				text-align:right;
+				margin-right:50px;
+				
+			}
+			
+			#cb1{
+				
+				float:left;
+			}
+			
+			#cb{
+				float:left;
+			}
+			
+			#d41,#d42{
+				width:150px;
+				float:left;
+				text-align:center;
+				
+			}
+			
+			#log{
+				width:140px;
+				height:40px;
+				background-color:#64A131;
+				border:none;
+				color:#fff;
+				border-radius:5px;
+				/*float:left;*/
+			}
+			
+			#vip{
+				width:140px;
+				height:40px;
+				border:1px solid #64A131;
+				border-radius:5px;
+				float:right;
+			}
+			
+		</style>
+    </head>
+    <body>
+		<div id='d'>
+			<div id='dt'>
+				<h2>会员登陆</h2>
+			</div>
+		
+			<div id='dl'>
+				<img src='huiyuan.jpg'>
+			</div>
+		
+			<form action='login' methon='post'>
+				<div id='dr'>
+					
+						<div id='d1'>
+							<span>手机号</span>
+							<div>
+								<input id='user' type='text' name='user'>
+							</div>
+						</div>
+					
+						<div id='d2'>
+							<span>密码</span>
+							<div>
+								<input id='pwd' type='password' name='pwd' placeholder='请输入6-20位号码字符' minlength='6' maxlength='20'>
+							</div>
+						</div>
+						<div id='d3'>
+							<div id='cb'>
+								<input type='checkbox' name='mm' value='0' checked>记住密码
+							</div>
+							<div id='cb1'>
+								<a href='#'>忘记密码？</a>
+								<a href='#'>快捷登陆</a>
+							</div>
+						</div>
+						<div id='d4'>
+							<div id='d41'>
+								<input id='log' type='submit' value='登录'>
+							</div>
+							<div id='d42'>
+								<a id='vip' href='#'>注册会员</a>
+							</div>
+						</div>
+					
+				</div>
+			</form>
+		</div>
+    </body>
+</html>

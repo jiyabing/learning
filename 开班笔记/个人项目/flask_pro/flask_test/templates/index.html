@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    这是首页
+    {% if context %}
+        <p>用户名：{{ context.username }}</p>
+        <p>性别：{{ context.sex }}</p>
+        <p>年龄：{{ context.age }}</p>
+
+        <hr>
+        <p>用户名：{{ context.Person['name'] }}</p>
+        <p>年龄： {{ context.Person.age }}</p>
+
+        <hr>
+        <p>百度： {{ context.websites['baidu'] }}</p>
+        <p>新浪： {{ context.websites.sina }}</p>
+    {% else %}
+        <a href="#">登录</a>
+        <a href="#">注册</a>
+    {% endif %}
+</body>
+</html>

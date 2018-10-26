@@ -1,0 +1,316 @@
+lambda 表达式（又匿名函数表达式）
+    作用：
+        创建一个匿名函数对象
+        同def类似，但不提供函数名
+    语法：
+        lambda [形参1，形参2...]:表达式
+    示例：
+        def myadd(x,y):
+            return x+y
+        可以改写为：
+            >>>myadd = lambda x,y:x+y
+            >>>print(myadd(1,2))
+            3
+    语法说明：
+        1.lambda只是一个表达式，它用来创建一个函数对象
+        2.当lambda表达式调用时，先执行冒号后的表达式，并返回表达式的结果的引用
+        3.lambda表达式创建的函数只能包含一条表达式
+        4.lambda比函数简单，且可以随时创建和销毁，有利于减少程序的耦合度
+
+练习1：
+    1.写一个lambda表达式，判断这个数的2次方+1能否被5整除，如果能返回True,否则
+      返回False
+      fx = lambda n:...
+      print(fx(4)) #False
+      print(fx(3)) #True
+
+    2.写一个lambda表达式，求两个变量的最大值：
+      mymax = lambda ...
+      print(mymax(55,63)) #63
+
+    见 code 内的lianxi1.py
+
+看懂下面的程序在做什么：
+    def fx(f,x,y):
+        r = f(x,y)
+        print(r)
+
+    fx((lambda a,b:a+b),1,2) #3
+    fx((lambda x,y:x**y),3,4) #81
+
+eval 和 exec 函数
+    eval函数：
+        作用：
+            把一个字符串当成一个表达式执行，返回表达式执行后的结果
+        格式：
+            eval(source,globals=None,locals=None)
+        示例：
+            x = 1
+            y = 2
+            s = 'x+y'
+            v = eval(s)
+            print(v) #3
+
+            print(eval('x+y',{'x':1,'y':2})) #3
+
+            print(eval('x+y',{'x':1,'y':2},{'x':3,'y':4})) #7
+            优先调用locals内的x,y
+
+            print(eval('x+y',{'x':1,'y':2},{'x':3})) #5
+
+    exec函数：
+        作用：
+            把一个字符串当成程序来执行
+        格式：
+            exec(source,globals=None,locals=None)
+        示例：
+            >>>s = 'x=5;print('hello');x += 1;print(x)'
+            >>>exec(s)
+            hello
+            6
+    
+            自己写一个程序，解释执行用户输入的任何语句
+            见 code 内的 exec语句.py
+
+
+函数式编程：
+    是指用一系列函数解决问题
+
+    函数是一等公民
+        1.函数本身是对象，可以赋值给变量，赋值后变量绑定函数
+        2.允许将函数作为实参传入另一个函数
+        3.允许函数返回一个函数
+
+    好处：
+        1.每一个函数完成细小的功能，一系列函数的任意组合可以解决大的问题
+        2.函数仅接收输入并产生输出，不会影响其他全局变量的状态
+
+练习：
+    求：1+1/2+1/4+...+1/2**n
+        print(sum[1/2**x for x in range(n+1)])
+
+高阶函数：High Order Function
+    满足下列条件中的一个的函数即为高阶函数
+        1.函数接收一个或多个函数作为参数传入
+        2.函数返回一个函数
+
+    python内置（builtins）的高阶函数：
+        map, filter, sorted
+
+    map函数：
+        map(function,*iterables) 用函数对可迭代对象中的每一个元素作为参数计算出
+        新的可迭代对象，当最短的一个可迭代对象不再提供数据时，此可迭代对象生成
+        结束
+
+        示例1：
+            生成一个可迭代对象，要求此可迭代对象可以生成1-9自然数的平方
+            def power2(x):
+                return x**2
+
+            for x in map(power2,range(1,10)):
+                print(x)
+
+            求以上数据的和
+            print(sum(map(power2,range(1,10))))
+
+        示例2：
+            生成一个可迭代对象，要求此可迭代对象生成如下数据：
+            1**4，2**3，3**2，4**1
+            >>>list(map(pow,range(1,5),range(4,0,-1)))
+            [1,8,9,4]
+
+练习：
+    1.求1**2+2**2+3**2+...+9**2的和
+       1)>>>def power2(x):
+               return x**2
+         >>>sum(map(power2,range(1,10)))
+
+       2)>>>sum(map(lambda x: x**2,range(1,10)))
+        
+    2.求1**3+2**3+3**3+...+9**3的和
+        >>>sum(map(lambda x:x**3,range(1,10)))
+
+    3.求1**9+2**8+3**7+...+9**1的和
+        >>>sum(map(pow,range(1,10),range(9,0,-1)))
+
+    filter函数：
+        格式：
+            filter(func,iterable)
+        作用：
+            筛选可迭代对象iterable中的数据，返回一个可迭代对象，此可迭代对象将
+            对iterable进行筛选
+            函数func将对iterable中的每个元素进行求值，返回False时将此数据丢弃，
+            返回True时，则保留此数据
+        示例：
+            #isodd函数 判断x是否为奇数，是奇数返回True
+            def isodd(x)：
+                return x%2 == 1
+
+            #打印10以内的奇数
+            for x in filter(isodd,range(1,10)):
+                print(x)
+
+            #生成10以内的偶数列表
+            list(filter(lambda x:x%2 == 0,range(1,10)))
+
+    sorted 函数：
+        作用：
+            将原可迭代对象的数据进行排序，生成排序后的列表
+        格式：
+            sorted(iterable,key=None,reverse=False)
+        参数说明：
+            iterable 可迭代对象
+            key 绑定函数，此函数用来提供一个排序的依据
+            reverse 标志用来设置是否降序排序（从小到大）
+        示例：
+            l = [5,-2,-4,0,3,1]
+            l1 = sorted(l)
+            l1 = [-4,-2,0,1,3,5]
+            l2 = sorted(l,reverse=True)
+            l2 = [5,3,1,0,-2,-4]
+
+            #如何排序如下：
+            [0,1,-2,3,4,5]?
+            l3 = sorted(l,key=abs) #[0,1,-2,3,4,5]
+
+            #按名字长度排序
+            name = ['zhang','zhao','li','sun']
+            sorted(name,key=len)
+
+            #以名字倒过来的顺序依据来排序
+            方法一
+            def f(x):
+                return x[::-1] 
+            sorted(name,key=f)
+
+            方法二
+            sorted(name,key=lambda x:x[::-1])
+
+递归函数 recursion
+    函数直接或间接的调用自身
+    示例：
+        #直接调用自身
+        def f():
+            f() #调用自己
+
+        f()
+        print('递归完成')
+            
+        #间接调用自身
+        def fa():
+            fb()
+
+        def fb():
+            fa()
+
+        fa()
+    递归说明：
+        1.递归一定要控制递归的层数，当符合某一条件时要终止递归
+        2.几乎所有的递归都能用循环来代替
+
+    递归的优缺点：
+        优点：
+            递归可以把问题简单化，让路劲更为清晰，代码更为简洁
+        缺点：
+            递归因系统环境影响大，当递归深度太大时，可能会得到不可预知的结果
+
+    示例：
+        #会无限循环，崩溃
+        def story():
+            print('讲故事')
+            story()
+            print('讲完了')
+
+        story()
+
+        #此递归用参数来控制最大次数
+        def story(times):
+            print('第',times,'遍')
+            print('将故事')
+            if times >= 3:
+                return
+            story(times+1)
+            print('第',times,'遍故事讲完')
+
+        story(1)
+
+    递归函数的实现方法：
+        先假设函数已经实现
+    示例：
+        求：100+99+98+...+2+1的和
+        分析：
+            先假设mysum(x)已经完成，且能求x+(x-1)+...+1的和
+        def mysum(x):
+            #先判断终止条件
+            if x == 1:
+                return 1
+            return x + mysum(x-1)
+
+        print(mysum(100)) #5050
+
+练习2：
+    1.编写函数 myfac(x),计算x阶乘x!
+      5!=5*4*3*2*1
+      print(myfac(5)) #120
+
+    2.写程序算出1-20的阶乘的和
+      思考：
+      能否用函数式编程中的高阶函数实现？
+
+    3.已知有列表：
+        l=[[3,5,8],10,[[13,14],15],18]
+        1)写一个函数print_list(lst)打印出列表中所有数字
+            print_list(l)
+        2)写一个函数sum_list(lst) 返回列表中所有数字的和
+            print(sum_list(l)) #86
+        提示：
+            type(x) 可以返回一个变量的类型
+            如：type(20) is int #True
+                type([1,2,3]) is list #True
+
+    4.开始学生信息管理项目
+       需要两个函数：
+           input_student()返回学生信息的字典的列表
+           output_student(lst) 以表格式打印学生信息
+           学生信息：
+               姓名(name)  字符串
+               年龄(age)   整数
+               成绩(score) 整数
+
+            input_student()
+            调用时等待用户输入学生信息，当输入姓名为空时结束，最后将学生信息形
+            成字典后存入列表中返回
+                def input_student():
+                    ...
+                l = input_student()
+                请输入学生姓名：xiaozhang
+                请输入学生年龄：20
+                请输入学生成绩：98
+                请输入学生姓名：xiaoli
+                请输入学生年龄：23
+                请输入学生成绩：100
+                请输入学生姓名：<回车>输入结束
+                此时列表数据为：
+                    l = [{'name':'xiaozhang','age':20,'score':98},
+                         {'name':'xiaoli','age':23,'score':100}]
+
+                def output_student(lst):
+                    ...
+
+                print(l)#打印出字典的列表
+
+                output_student(l) #打印出学生信息的表格如下：
+                +----------+----------+----------+
+                |  name    |   age    |  score   |
+                +----------+----------+----------+
+                | xiaozhang|   20     |    98    |
+                |  xiaoli  |   23     |   100    |
+                +----------+----------+----------+
+                
+            
+                
+
+
+
+
+

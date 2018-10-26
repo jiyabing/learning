@@ -1,0 +1,145 @@
+issubclass 函数
+    issubclass(cls,class_or_tuple)
+    判断一个类是否是继承自其他的类，如果此类cls是class或tuple中的一个派生子类，
+	返回True,否则返回false
+	
+    示例：
+	class A:
+	    pass
+	class B(A):
+	    pass
+	class C(B):
+	    pass
+	class D(B):
+	    pass
+	issubclass(B,A) #True
+	issubclass(C,B) #True
+	issubclass(D,C) #False
+	issubclass(C,A) #True
+	issubclass(C,(int,str)) #False
+	issubclass(C,(int,A)) #True
+
+封装 enclosure
+	1.封装是指隐藏类的实现细节，让使用者不关心这些细节
+	2.封装的目的是让使用者通过尽可能少的使用实例变量名（属性）操作对象
+
+私有属性和方法
+	python类中以双下划线('__')开头，不以双下划线结尾的标识符为私有成员
+	私有成员只能被方法调用，不能在子类或其他地方使用
+	
+	私有成员有两种：
+		私有属性
+		私有方法
+	
+	示例：
+		class A:
+			def __init__(self):
+				self.__p1 = 100 #创建是有属性
+			
+			def __m1(self):
+				print('A类的私有方法被调用！')
+			def test(self):
+				print(self.__p1) #可以访问
+				self.__m1() #可以访问
+		
+		a = A()
+		print(a.__p1)  #出错，不可以访问
+		a.__m1()  #出错，在类外部不能调用类的私有方法
+		a.test() #用方法来操作私有属性和方法
+
+多态 polymorphic
+	字面意思：多种状态
+	多态是指在有继承/派生关系的类中，调用基类对象的方法，实际能调用子类
+	的覆盖方法的现象叫多态
+	
+	说明：
+		多态调用方法与对象相关，不与类相关
+		python的全部对象只有'运行时状态(动态)',没有'C++/Java'里的'编译时状态(静态)'
+	
+	示例见：
+		code 内的 poly.py
+
+多继承的缺陷：
+	标识符（名字空间）冲突的问题，要谨慎使用多继承
+
+多继承的 MRO(Methid Resolution Order)问题
+	MRO 方法搜索顺序问题
+		Python3 广度优先
+		Python2 深度优先
+
+函数重写 overwrite
+	在自定义的类中，通过添加特定的方法，让自定义的类生成的对象（实例）能像内建对象
+	一样进行内建函数操作
+	
+	对象转字符串函数重新
+		repr(obj) 返回一个能代表此对象的字符串，通常:
+			eval(repr(obj)) == obj
+		str(obj) 通过给定的对象返回一个字符串（这个字符串通常是给人阅读的）
+		换句话说：
+			repr(obj) 返回的字符串是给python用的
+			str(obj) 返回的字符串是给人看的
+		
+	重写方法
+		repr(obj) 函数的重写方法 def __repr__(self)
+		str(obj) 函数的重写方法 def __str__(self)
+		当对象没有__str__方法时，则返回__repr__(self)的值
+	
+	内建函数重写
+		obj.__abs__()      方法对应 abs(obj)
+		obj.__len__()      方法对应 len(obj)
+		obj.__reversed__() 方法对应 reversed(obj)
+		obj.__round__()    方法对应 round(obj)
+	示例见：
+		code 内的 myinteger.py
+
+	数值转换函数重写
+		obj.__complex__()   对应 complex(obj)
+		obj.__int__()       对应 int(obj)
+		obj.__float__()     对应 float(obj)
+		obj.__bool__()      对应 bool(obj)
+	
+	bool测试函数的重写
+		格式：
+			def __bool__(self):
+				...
+		作用：
+			1.用于bool(obj)函数取值
+			2.用于if语句真值表达式中
+			3.用于while语句真值表达式中
+		说明：
+			布尔测试方式的查找顺序是__bool__方式，其次是__len__方法，如果
+			没有以上方法则返回True
+		示例见：
+			code 内的 bool.py
+
+迭代器（高级）
+	可以通过next(obj)函数取值的对象，就是迭代器
+	
+	迭代器协议：
+		迭代器协议是指对象能够使用next函数获取下一项数据，在没有下一项数据
+		时触发一个StopIteration异常来终止迭代的约定
+	迭代器协议的实现方法：
+		在类内需要定义__nxet__(self)方法来实现迭代器协议
+	语法形式：
+		class MyIterator:
+			def __next__(self):
+				迭代器协议
+				return 数据
+
+可迭代对象
+	是指能用iter(obj)函数返回迭代器的对象(实例)
+	可迭代对象的内部要定义__iter__(self)方法来返回迭代器对象
+
+练习1：
+	1.完善学生管理系统读取学生信息功能
+	2.看懂类的封装的用意及功能的划分（如：save_to_file(self)方法等）
+	3.写一个实现迭代器协议的类Primes,让此类可以生成从b开始到n个素数
+	class Primes:
+		def __init__(self,b,n):
+			...
+		...
+	for x in Primes(10,20):
+		print(x) #11,13,17,19
+	4.扩展学生信息管理程序，试想能否在不改变原Student类的基础上，为每个学生添加一个
+	   家庭地址信息（提示用继承/派生创建一个新的类）
+	5.添加11）修改家庭住址功能

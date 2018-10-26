@@ -1,0 +1,151 @@
+版本控制
+集中式
+分布式
+
+git
+版本库（仓库）：储存代码文件等的地方
+本地仓库：本机仓库
+远程仓库：充当“中央服务器”，用于不同节点之间进行代码交换的地方
+克隆：复制
+分支：不同分支做不一样的事，用于协同开发
+标签：用于标注版本信息的“指针”指向某一个commit位置
+
+git
+远程仓库储存github,coding,gitlab
+
+
+安装git
+sudo apt-get install git
+
+使用：
+
+新建空目录用于创建仓库
+    mkdir gitdemo
+打开空目录
+    cd gitdemo
+使用git初始化空仓库，将空目录变为空仓库
+    git init
+查看空仓库
+    ls -ah
+创建文件/代码文件
+    abc.txt
+***************************  
+
+使用git将文件加到仓库中，并未入库
+    git add abc.txt
+****没有任何提示表示没有问题****
+使用git将文件提交到仓库之中
+    git commit -m "XXXXXXX"
+****-m "注释内容"****
+
+***************************
+
+查看当前仓库的状态
+    git status
+查看已修改的文件的修改内容
+    git diff abc.txt
+通过查看日志文件，获取提交记录
+    git log
+****
+commit 87e54391fac4975b3dddce8f399e641c97fdf90f
+提交者姓名<提交者邮箱>
+Author: haominqu <haominqu@hotmail.com>
+提交日期提交时间
+Date:   Fri Aug 10 10:09:12 2018 +0800
+提交文件所记录的commit注释，-m后的双引之中的内容
+    change abc
+****
+
+返回上一版本（回退到上一个提交的commit）
+    git reset --hard HEAD^
+
+删除仓库中文件
+    git rm def.txt
+
+
+远程仓库github
+注册github账号
+进入自己的账号首页
+创建第一个项目
+
+远程仓库coding
+注册账号
+进入自己的账号首页
+创建第一个项目
+
+
+先有本地仓库，后有远程仓库
+获取远程仓库，与本地仓库之间建立链接关系
+    git remote add origin https://github.com/haominqu/gitdemo.git
+
+************SSH ************
+使用ＳＳＨ进行上传提交更新时需要公钥
+生成获取pubkey
+    ssh-keygen -t rsa -b 4096 -C "youremail"
+生成的pubkey默认位置:/home/tarena/.ssh目录下
+打开id_rsa.pub，复制内容
+在github中settings中SSH and GPG key 中添加SSH key
+添加内容为复制的内容
+
+（报错：sign_and_send_pubkey:....
+解决方法：运行ssh-add）
+
+*****************************
+
+从远程仓库同步到本地仓库
+    git pull origin master
+
+从本地仓库提交同步代码到远程仓库
+    git push origin master
+
+
+
+先创建远程仓库，再有本地仓库    
+克隆远程仓库到本地空目录下
+    git clone https://github.com/haominqu/gitdemo.git
+自动生成对应的本地仓库，本地仓库与远程仓库相对应
+
+
+分支
+创建分支
+    git branch 分支名称
+
+查看分支
+    git branch
+    列出分支，并标注出当前所属分支
+
+切换分支
+    git checkout 分支名称
+    提示出已切换到ＸＸＸ分支
+
+创建新分支，并切换到新分支之上
+    git checkout -b 分支名称
+
+合并分支，将其他分支合并到当前分支
+    git merge　其他分支名称
+
+删除分支，删除不需要的分支
+    git branch -d 要删除分支名称
+
+合并分支冲突情况
+    git merge 其他分支名称
+    冲突提示：自动合并 qqqqq.txt
+            冲突（内容）：合并冲突于 qqqqq.txt
+            自动合并失败，修正冲突然后提交修正的结果。
+    查看冲突
+        git diff 文件名称
+        冲突内容：  
+                <<<<<<< HEAD
+                    当前分支修改内容
+                =======
+                    其他分支修改的内容
+                >>>>>>> dev
+        手动修改要保存内容
+        git add 文件名称
+        git commit -m ""
+        git merge 其他分支
+
+
+标签
+创建标签
+    git tag v1.0

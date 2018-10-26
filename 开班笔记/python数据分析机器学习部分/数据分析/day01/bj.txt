@@ -1,0 +1,141 @@
+数据分析
+matlab
+Python
+一、Numpy是什么？
+1.Numrical Python，数值的Python，应用于数值分析领域的Python语言工具；
+2.Numpy是一个开源的科学计算库；
+3.Numpy弥补了作为通用编程语言的Python在数值计算方面，能力弱，速度慢的不足；
+4.Numpy拥有丰富的数学函数、强大的多维数组和优异的运算性能；
+5.Numpy与Scipy、scikit、matplotlib等其它科学计算库可以很好地协调工作；
+6.Numpy可以取代matlab等工具，允许用户进行快速开发的同时完成交互式的原型设计。
+代码：vector.py
+二、多维数组
+1.numpy中的多维数组是numpy.ndarray类类型的对象，可用于表示数据结构中的任意维度的数组；
+2.创建多维数组对象：
+numpy.arange(起始, 终止, 步长)->一维数组，首元素就是起始值，尾元素为终止值之前的最后一个元素，步长即每次递增的公差。缺省起始值为0，缺省步长为1。
+numpy.array(任何可被解释为数组的容器)
+3.内存连续，元素同质。
+4.ndarray.dtype属性表示元素的数据类型。通过dtype参数和astype()方法可以指定和修改元素的数据类型。
+5.ndarray.shape属性表示数组的维度：
+(高维度数, ..., 低维度数)
+代码：array.py
+6.元素索引，从0开始
+数组[索引]
+数组[行索引][列索引]
+数组[页索引][行索引][列索引]
+数组[页索引, 行索引, 列索引]
+代码：index.py
+7.numpy的内置类型和自定义类型
+1)numpy的内置类型
+bool_ 1字节布尔型，True(1)/False(0)
+int8 1字节有符号整型，-128 - 127
+int16 2字节有符号整型
+int32 4字节有符号整型
+int64 8字节有符号整型
+uint8 1字节无符号整型，0 - 255
+uint16 2字节无符号整型
+uint32 4字节无符号整型
+uint64 8字节无符号整型
+float16 2字节浮点型
+float32 4字节浮点型
+float64 8字节浮点型
+complex64 8字节复数型
+complex128 16字节复数型
+str_ 字符串型
+2)自定义类型：通过dtype将多个相同或者不同的numpy内置类型组合成某种复合类型，用于数组元素的数据类型。
+除了使用内置类型的全称以外还可以通过类型编码字符串简化类型的说明。
+numpy.int8 -> i1
+numpy.int16 -> i2
+numpy.uint32 -> u4
+numpy.float64 -> f8
+numpy.complex128 -> c16
+对于多字节整数可以加上字节序前缀：
+< - 小端字节序，低数位低地址；
+98
+0x1234
+L        H
+0x34 0x12
+= - 处理器系统默认；
+> - 大端字节序，低数位高地址。
+L        H
+0x12 0x34
+numpy.str_ -> U字符数
+numpy.bool_ -> b
+代码：dtype.py
+8.切片
+数组[起始:终止:步长, 起始:终止:步长, ...]
+缺省起始：首(步长为正)、尾(步长为负)
+缺省终止：尾后(步长为正)、首前(步长为负)
+缺省步长：1
+靠近端部的一个或几个连续的维度使用缺省切片，可以用"..."表示。
+代码：slice.py
+9.改变维度
+1)视图变维：针对一个数组对象获取其不同维度的视图
+数组.reshape(新维度)->数组的新维度视图
+数组.ravel()->数组的一维视图
+2)复制变维：针对一个数组对象获取其不同维度的副本
+数组.flatten()->数组的一维副本
+3)就地变维
+数组.shape = (新维度)
+数组.resize(新维度)
+4)视图转置
+数组.transpose()->数组的转置视图
+数组.T: 转置视图属性
+至少二维数组才能转置。
+代码：reshape.py
+10.组合与拆分
+1)垂直组合/拆分
+numpy.vstack((上, 下))
+numpy.vsplit(数组, 份数)->子数组集合
+2)水平组合/拆分
+numpy.hstack((左, 右))
+numpy.hsplit(数组, 份数)->子数组集合
+3)深度组合/拆分
+numpy.dstack((前, 后))
+numpy.dsplit(数组, 份数)->子数组集合
+4)行/列组合
+numpy.row_stack((上, 下))
+numpy.column_stack((左, 右))
+代码：stack.py
+11.ndarray类的属性
+dtype - 元素类型
+shape - 数组维度
+T - 转置视图
+ndim - 维数
+size - 元素数, 仅对一维数组等价于len()
+itemsize - 元素字节数
+nbytes - 总字节数 = size x itemsize
+flat - 扁平迭代器
+real - 实部数组
+imag - 虚部数组
+数组.tolist()->列表对象
+代码：attr.py
+三、数据可视化：matplotlib.pyplot (mp)
+mp.plot(水平坐标数组, 垂直坐标数组)
+x: [1 2 3 4]
+y: [5 6 7 8]
+代码：plt1.py
+mp.plot(..., linestyle=线型, linewidth=线宽,
+    color=颜色)
+代码：plt2.py
+mp.xlim(左边界, 右边界)
+mp.ylim(底边界, 顶边界)
+代码：plt3.py
+mp.xticks(刻度位置数组, 刻度文本数组)
+mp.yticks(刻度位置数组, 刻度文本数组)
+代码：plt4.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

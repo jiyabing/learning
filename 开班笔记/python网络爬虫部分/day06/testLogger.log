@@ -1,0 +1,4 @@
+2018-07-17 11:01:27,570 CRITICAL test critical in log
+2018-07-17 11:01:27,572 ERROR test error in log
+2018-07-17 11:01:27,572 WARNING test warning in log
+2018-07-17 11:01:27,573 INFO test info in log

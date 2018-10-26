@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <!--循环列表l中的内容-->
+    <!--forloop.counter循环计算，从1开始-->
+    {% for name in l %}
+        <h3
+            {% if forloop.first%}
+                style = 'color:red';
+            {% endif%}
+            
+        >
+            {{forloop.counter}}:{{name}}
+        </h3>
+    {% endfor %}
+</body>
+</html>

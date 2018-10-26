@@ -1,0 +1,108 @@
+瞿昊旻（qu hao min） quhm@tedu.cn
+
+团队
+用户
+需求分析师(分析用户需求)
+产品经理(设计产品原型)
+架构师(决定项目主体框架)
+UI设计师(设计项目展示页面)
+前端工程师(开发前端页面)
+后端工程师(开发后端逻辑代码)
+测试工程师(测试项目)
+运维工程师(部署项目上线)
+项目经理(负责整体项目进程节点把控项目)
+
+
+了解项目
+了解项目流程
+了解项目功能
+判断是否可行
+通过原型分析功能
+确定大体实现方法
+
+设计表
+列出功能
+分app
+开发
+
+天天果园
+    流程：
+       1.注册-登录-首页展示-查看商品-加购物车-下订单-查看订单
+       2.注册-登录-修改个人信息-添加收货地址
+
+    功能：
+        首页展示(查询数据库)，查看详情(查询)，登录(查询)，注册(增加，查询)，搜索(查询)，购物车(条件)，下订单(添加)，付款()，查看订单(查询)，修改个人信息(查询，修改)，管理收货地址(添加，查询，修改，删除)
+
+    设计表：
+        1.商品分类表GoodsType
+            id
+            title(分类名称)
+            desc(描述)
+            isdelete(是否删除)
+
+        2.商品表Goods(商品分类表 一对多)
+            id
+            title(商品名称)
+            price(价格)
+            desc(描述)
+            unit(单位)
+            picture(图片)
+            detail(详情)
+            isdelete(是否删除)
+            type(商品类型 关联GoodType)
+
+        3.用户表UserInfo
+            id
+            uname(用户名)
+            upassword(密码)
+            email(邮箱)
+            phone(手机号)
+            time(注册时间)
+            isban(禁用)
+            isdelete(是否删除)
+
+        4.购物车表CartInfo(商品表 一对多；用户表 一对多)
+            id
+            user(用户 关联UserInfo)
+            goods(商品 关联Goods)
+            ccount(数量)
+
+        5.地址表Address(用户表 一对多)
+            id
+            aname(收货人)
+            ads(地址)
+            phone(电话)
+            user(用户 关联UserInfo)
+
+        6.订单表Order(用户表)
+            id
+            orderNo(订单号)
+            orderdetail(商品，数量，单价，描述)
+            adsname(收件人)
+            adsphone(收件电话)
+            ads(地址)
+            user(用户 关联Userinfo)
+            time(时间)
+            acot(总数)
+            acount(总价)
+            orderstatus(状态)
+
+    模块：
+        用户模块
+        商品模块
+        购物车模块
+        订单模块
+        支付模块(扩展)
+
+建立虚拟环境
+    1.virtualenv 项目名称env
+    2.source 项目名称env/bin/activate
+
+建立项目
+    django-admin startproject xxx
+
+建立app
+    python manage.py startapp xxx
+
+建立urls
+建立templates(可能没有)

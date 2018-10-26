@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <title></title>
+</head>
+<body>
+    <!--
+    <form>
+        {% for field in form %}
+            <p>
+                {{field.label}}:{{field}}
+            </p>
+        {% endfor %}
+        <p>
+            <input type="submit" value="提交">
+        </p>
+    </form>
+
+    <form>
+        {{form.as_p}}
+        <p>
+            <input type="submit" value="提交">
+        </p>
+    </form>
+
+    <form>
+        <ul>
+            {{form.as_ul}}
+        </ul>
+        <p>
+            <input type="submit" value="提交">
+        </p>
+    </form>
+-->
+
+    <form action="/05_form/" method="post">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <p>
+            <input type="submit" value="提交">
+        </p>
+    </form>
+</body>
+</html>

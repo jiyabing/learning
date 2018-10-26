@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script>
+			//var input = window.prompt('输入4位数值：');
+			//var n=Number(input);
+			//var b = n%4==0&&n%100!=0 || n%400==0;
+			//console.log(n+'是闰年？'+b);
+			
+			var input = window.prompt('输入任意一个字符：');
+			
+			var d = input>=0&&input<=9;
+			var l = (input>='A'&&input<='Z') || (input>='a'&&input<='z');
+			var c = input>='\u4e00'&&input<='\u9fa5';
+			console.log(d,l,c);
+			
+			var r= input>=60?'及格':'不及格';
+			console.log(r);
+			
+		</script>
+    </body>
+</html>

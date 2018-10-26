@@ -1,0 +1,83 @@
+user  nginx;  //运行用户，默认即是nginx，可不设置
+worker_processes  1;  //nginx进程,一般设置为和cpu核数一样
+
+error_log  /var/log/nginx/error.log warn;  //错误日志存放目录
+pid        /var/run/nginx.pid;  //进程pid存放位置
+
+
+events {
+    use epoll;  //epoll是多路复用IO(I/O Multiplexing)中的一种方式,但是仅用于linux2.6以上内核,可以大大提高nginx的性能
+    worker_connections  1024;  //单个后台worker process进程的最大并发链接数
+}
+
+
+http {
+    include       /etc/nginx/mime.types;  //文件扩展名与类型映射表
+    default_type  application/octet-stream;  //默认文件类型
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;  //开启高效传输模式
+    #tcp_nopush     on;  //激活tcp_nopush参数可以允许把httpresponse header和文件的开始放在一个文件里发布，积极的作用是减少网络报文段的数量
+
+    keepalive_timeout  65;  //连接超时时间，单位秒
+
+    #gzip  on;  //开启gzip压缩功能
+
+    include /etc/nginx/conf.d/*.conf;
+}
+
+
+#################################################
+default.conf文件配置说明
+
+server {
+    listen       80; //监听端口
+    server_name  192.168.128.128;  //域名
+
+    charset utf-8;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    client_max_body_size 75M;
+
+    location / {
+        include   uwsgi_params;
+        uwsgi_pass  127.0.0.1:8001;  //和uwsgi里的socket保持一致
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    #error_page   500 502 503 504  /50x.html;
+    location /static {
+        alias   /home/jyb/mysite/static;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}

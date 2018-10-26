@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<button onclick='createElem()'>创建节点</button>
+		<div id='main'>
+			<p id='pp'>这是一段测试p元素</p>
+		</div>
+		
+		<div id='d1'></div>
+		
+		<script src='common.js'></script>
+		<script>
+			function createElem(){
+				var elem = document.createElement('div');
+				elem.id = 'container';
+				elem.innerHTML = '动态创建div';
+				console.log(elem);
+				
+				//$('main').appendChild(elem);
+				$('main').insertBefore(elem,$('pp'));
+				
+				$('d1').innerHTML = "<div id='mydiv1' style='color:red;font-size:24px;'>这是动态创建的div元素，添加到d1当中</div>";
+			}
+		</script>
+    </body>
+</html>

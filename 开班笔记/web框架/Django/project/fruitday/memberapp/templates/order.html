@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    订单页
+{% endblock %}
+
+{% block content %}
+    {% for ads in adss %}
+        <input type="radio" name="adds" value="{{ ads.id }}" _n="{{ ads.aname }}" _ads="{{ ads.ads }}"
+        _ap="{{ ads.phone }}">
+        {{ ads.aname }}
+        {{ ads.ads }}
+        {{ ads.phone }}
+        <br>
+    {% endfor %}
+    <div id="show"></div>
+    <a onclick="porder()">确认订单</a>
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.3.js' %}"></script>
+    <script>
+        $(function () {
+            var cals = JSON.parse(sessionStorage.getItem('acot'));
+            var s='';
+            $.each(cals, function (index,obj) {
+                console.log(obj.id);
+                console.log(obj.name);
+                console.log(obj.price);
+                console.log(obj.count);
+                s = s+obj.id+obj.name+obj.price+obj.count+"<br>";
+            });
+            $('#show').append(s);
+        })
+
+        function porder() {
+            $.ajax({
+                url: 'addorder',
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'acot': sessionStorage.getItem('acot'),
+                    'adsname': $('input:radio:checked').attr('_n'),
+                    'ads': $('input:radio:checked').attr('_ads'),
+                    'adsphone': $('input:radio:checked').attr('_ap'),
+                },
+                success:function (data) {
+                  console.log(data);
+                },
+                error:function (error) {
+                    console.log(error);
+                },
+            })
+        }
+    </script>
+{% endblock %}

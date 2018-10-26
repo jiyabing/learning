@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset='UTF-8'>
+</head>
+<body>
+    <h1>这是在Django中的模板</h1>
+    <p>
+        <img src="{% static 'img/huiyuan.jpg' %}">
+    </p>
+
+    {% block content1 %}
+        <h2>这是允许在子模板中修改的内容</h2>
+    {% endblock %}
+
+    {% block content2 %}
+        <h2>这是允许被子模板修改的内容</h2>
+    {% endblock %}
+</body>
+</html>

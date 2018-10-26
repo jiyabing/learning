@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>选择器使用</title>
+		
+		<!--取消a元素中的下划线-->
+		<style>
+			a{
+				text-decoration:none;
+				color:#000;
+			}
+			
+			/*鼠标悬停在超链接上时显示红色*/
+			a:hover{color:#f00}
+			
+			
+			/*类选择器*/
+			.lei01{
+				font-size:28px;
+				background:silver;
+				font-style:italic;
+			}
+			
+			/*分类选择器*/
+			div.lei01{font-weight:bold;}
+			
+			.dec{text-decoration:underline;}
+			
+			/*id选择器*/
+			#main{color:red;}
+			
+			<!--权值:100+1-->
+			#d1 span{color:pink;}
+			
+			<!--权值:100-->
+			#s1{color:yellow;}
+			
+		</style>
+	</head>
+	<body>
+		<a href='http://www.baidu.com' target='_blank'>新闻</a>
+		<a href='http://www.51zxw.com' target='_blank'>体育</a>
+		
+		
+		<div class='lei01 dec'><!--多类引用-->
+			vffad复读机啊发打飞大飞阿阿凡地方就df 得
+		</div>
+		
+		<h1 id='main'>这是标题</h1>
+		
+		<span>德玛西亚<span>
+		
+		<div id='d1'>
+			<p class='pp'>
+				<span id='s1' class='sp'>
+					这是d1中的pp中的span
+				</span>
+			</p>
+		</div>
+	</body>
+</html>

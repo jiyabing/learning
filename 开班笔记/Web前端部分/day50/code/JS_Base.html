@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+		<style>
+			div{
+				width:100px;
+				height:100px;
+				background:red;
+			}
+		</style>
+    </head>
+    <body>
+		<button onclick="console.log('试试就试试！(*^_^*)')">
+			点我试试
+		</button>
+		
+		<script>
+			console.log('这是在script标记中向控制台输出的一句话');
+			document.write('这是向网页中输出的一句话');
+		</script>
+		
+		<button onclick="document.write('hahahha')">haha</button>
+		
+		<!--引入first.js-->
+		<script src="first.js"></script>
+		
+		<div onclick="console.log('搞不懂')"></div>
+		<script>
+			document.write("脑子不好使")
+		</script>
+    </body>
+</html>

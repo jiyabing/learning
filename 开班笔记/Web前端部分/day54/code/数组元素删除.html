@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script>
+			function del(){
+				var arr = [1,2,3,4];
+				var input = prompt();
+				var index = -1;
+				for(var i=0;i<arr.length;i++){
+					if(arr[i] == input){
+						index = i;
+						break;
+					}
+				}
+				if(index == -1){
+					console.log('不存在')
+				}else{
+					for(var j=index;j<arr.length-1;j++){
+						arr[j] = arr[j+1];
+					}
+					arr.pop();
+					console.log(arr);
+				}	
+			}
+		</script>
+		<button onclick='del()'>删除元素</button></button>
+    </body>
+</html>

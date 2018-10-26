@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<script>
+			function testNum(){
+				//声明正则表达式，验证6位数字
+				var reg = /^\d{6}$/;
+				var reg = new RegExp('^\\d{6}$');
+				var msg = prompt('请输入6位邮政编码：');
+				if(reg.test(msg)){
+					alert('格式正确');
+				}else{
+					alert('格式不正确');
+				}
+			}
+		</script>
+		<button onclick='testNum()'>邮编验证</button>
+    </body>
+</html>

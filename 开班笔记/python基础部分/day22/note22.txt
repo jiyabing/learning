@@ -1,0 +1,208 @@
+﻿属性管理函数
+    1.getattr(obj, name[, default])
+    从一个对象得到对象的属性；getattr(x, 'y') 等同于x.y; 当属性不存在时,
+    如果给出default参数,则返回default,如果没有给出default 则产生一个AttributeError错误
+
+    2.hasattr(obj, name)
+    用给定的name返回对象obj是否有此属性,此种做法可以避免在getattr(obj, name)时引发错误
+
+    3.setattr(obj, name, value)
+    给对象obj的名为name的属性设置相应的值value, setattr(x, 'y', v) 等同于 x.y = v
+
+    4.delattr(obj, name)
+    删除对象obj中的name属性, delattr(x, 'y') 等同于 del x.y
+
+
+异常（高级）
+    with 语句：
+        语法：
+            with 表达式1 [as 变量名1],表达式2 [as 变量名2],...
+        作用：
+            用于对资源的访问的场合，确保使用过程中不管是否发生异常，都会执行必要有'清理'操作
+            并释放资源
+            如：
+                文件打开后自动关闭，线程中锁的自动获取和释放
+        说明：
+            with语句与try-finally相似，并不会必变异常状态
+            as 子句用于绑定表达式创建的对象
+
+        示例见：
+            code 内的 with.py
+
+环境管理器：
+    1.类内有__enter__和__exit__方法的类被称为环境管理器
+    2.能够用with进行管理的对象必须是环境管理器
+    3.__enter__将在进入with语句是被调用，并返回有as变量管理的对象
+    4.__exit__将在离开with语句时被调用，且可以用参数来判断离开with语句时是否出现
+     异常并做出相应的处理
+
+    示例见：
+        code 内的 filewrite.py
+
+练习1:
+    实现文件的复制（建议使用二进制方式进行操作）
+    $ python3 mycp.py
+        请输入源文件：/etc/passwd
+        请输入目标文件: ./mypass.txt
+        提示：‘文件复制成功’或‘文件复制失败’
+        （建议使用with语句打开文件）
+    见 code 内的lianxi1.py
+
+运算符重载：
+    什么是运算符重载
+        让自定义的类生成的对象（实例）能够使用运算符进行操作
+    作用：
+        让实例像数学表达式一样进行运算操作
+        让程序简洁易读
+    说明：
+        运算符重载方法的参数已经有固定的含义，不建议改变原有的含义
+
+    算术运算符：
+        方法名           运算符
+        __add__          加法 +
+        __sub__          减法 -
+        __mul__          乘法 *
+        __truediv__      除法 /
+        __floordiv__     地板除 //
+        __mod__          求余 %
+        __pow__          幂运算 **
+    格式：
+        def __xxx__(self,other):
+            ...
+    示例见：
+        code 内的mynumber.py
+
+    反向算术运算符：
+        方法名           运算符
+        __radd__          加法 +
+        __rsub__          减法 -
+        __rmul__          乘法 *
+        __rtruediv__      除法 /
+        __rfloordiv__     地板除 //
+        __rmod__          求余 %
+        __rpow__          幂运算 **
+    格式：
+        def __xxx__(self,other):
+            ...
+
+练习2：
+    实现两个自定义表的相加
+    class Mylist:
+        def __init__(self,iterable):
+            self.data = [x for x in iterable]
+        ...#类内以下的部分自己实现
+        l1 = Mylist([1,2,3])
+        l2 = Mylist(range(4,7))
+        l3 = l1 + l2
+        print('l3=',l3)
+        l4 = l1 * 2
+        print(l4)
+        l5 = 2 *l2
+    
+
+复合赋值运算符重载：
+    方法名                运算符
+        __iadd__          加法 +=
+        __isub__          减法 -=
+        __imul__          乘法 *
+        __itruediv__      除法 /
+        __ifloordiv__     地板除 //
+        __imod__          求余 %
+        __ipow__          幂运算 **
+    示例见：
+        code 内的 mylist.py
+
+问题：
+    #算法1
+    a = [100]
+    def test(x):
+        x = x + x #调用了__add__方法（重新生成一个新的对象绑定x）
+        print(x) #[100,100]
+
+    test(a)
+    print(a) #[100]
+
+    #算法2
+    a = [100]
+    def test(x):
+        x += x  #调用了__iadd__方法（在原来的变量上原地操作）
+        print(x) #[100,100]
+
+    test(a)
+    print(a) #[100,100]
+
+比较运算符的重载
+    __lt__   小于 <
+    __le__   小于等于 <=
+    __gt__   大于 >
+    __ge__   大于等于 >=
+    __eq__   等于 ==
+    __ne__   不等 !=
+    返回True 或 False
+
+位运算符重载
+    __invert__   ~取反（一元运算符）
+    __and__      &位与（交集）
+    __or__       |位或（并集）
+    __xor__      ^位异或（对称补集）
+    __lshift__   <<左移
+    __rshift__   >>右移
+
+反向位运算符重载
+    __rinvert__   ~取反（一元运算符）
+    __rand__      &位与（交集）
+    __ror__       |位或（并集）
+    __rxor__      ^位异或（对称补集）
+    __rlshift__   <<左移
+    __rrshift__   >>右移
+
+为运算符复合赋值重载
+    __iinvert__   ~=取反（一元运算符）
+    __iand__      &=位与（交集）
+    __ior__       |=位或（并集）
+    __ixor__      ^=位异或（对称补集）
+    __ilshift__   <<=左移
+    __irshift__   >>=右移
+
+一元运算符的重载：
+    __neg__  -负号
+    __pos__  +正号
+    __invert__ ~按位取反
+
+in/not in 运算符的重载
+    格式：
+        def __contains__(self,e): #e代表元素
+            ...
+    说明：
+        not in 相当于 in取反，所以只需重载in
+    示例见：
+        code 内的 in_not_in.py
+
+索引index和切片slice运算符重载
+    重载方法：
+        __getitem__(self,i)  用于索引/切片取值
+        __setitem__(self,i)  用于索引/切片赋值
+        __delitem__(self,i)  用于del语句删除索引操作
+    作用：
+        让自定义类的对象能够支持索引和切片操作
+    示例见：
+        code 内的 index.py
+
+
+练习3：
+    实现有序集合类OrderSet(),能实现两个集合的交集&,并集|,补集-,对称补集^,==,!=等操作
+    要求：
+        集合内部用list存储
+        class OrderSet:
+            def __init__(self,iterable):
+                self.data = [x for x in iterable]
+            ...
+            
+    测试用例：
+        s1 = OrderSet([1,2,3,4])
+        s2 = OrderSet([3,4,5])
+        print(s1 & s2) #OrderSet([3,4])
+        print(s1 | s2) #OrderSet([1,2,3,4,5])
+        print(s1 ^ s2) #OrderSet([1,2,5])
+        if OrderSet([1,2,3]) != OrderSet([1,2,3,4]):
+            print('不相同')

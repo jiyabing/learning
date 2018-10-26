@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>name</title>
+    </head>
+
+    <body>
+		<!--
+    	<script>
+			for(var i=1;i<=100;i++){
+				console.log(i);
+			}
+		</script>
+		-->
+		
+		<script>
+			var input=prompt('任意输入一个数字');
+			var isSu = true;
+			for(var i=2;i<input;i++){
+				if(input%i==0){
+					//console.log('不是素数');
+					isSu = false;
+					break;
+				}
+			}
+			if(isSu){
+				console.log('素数')
+			}
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,78 @@
+在Python中如何写日志？
+	使用logging写日志；
+日志的级别：
+	CRITICAL = 50
+	FATAL = CRITICAL
+	ERROR = 40
+	WARNING = 30
+	WARN = WARNING
+	INFO = 20
+	DEBUG = 10
+	NOTSET = 0
+注意：
+1）如果默认的日志级别设成INFO，那么低于
+INFO的日志将不会被写，比如DEBUG信息不会被写；
+2）如果这个日志不再被用了，需要remove掉
+其handler，否则它会常驻内存，引起混乱；
+
+IP和MAC地址的区别？
+	HTTP数据包在传递过程，源地址和目标地址
+是不变的，填写的是IP地址；发货过程中经历
+各个路由器使用的是MAC地址,这个MAC地址是
+不断变化的；
+
+作业
+1）抓取代理服务器至少1000条信息，
+统计这里面可以用的IP地址和端口号；
+https://www.kuaidaili.com/free/
+2）basicSpider.py封装的完善；
+
+
+# 从下面的调用中，我们可以看出Proxy需要传递
+的是一个字典
+# Proxy handling
+def getproxies_environment():
+    proxies = {}
+
+面试题：
+	从n个不同元素中，任取m(m≤n)个元素并成
+一组，叫做从n个不同元素中取出m个元素的
+一个组合；从n个不同元素中取出m(m≤n)个元素
+的所有组合的个数，叫做从n个不同元素中取
+出m个元素的组合数。
+C(n,m)=n!/((n-m)!*m!)（m≤n）
+性质：C(n,m)= C(n,n-m)
+	  C(n,m)= C(n-1,m-1)+C(n-1,m)
+-> C(n,0) = C(n,n) = 1
+问题：怎么使用Python来实现计算组合数,
+使用递归来算?
+	def CmbinationNumber(n, m):
+	    # 出口在哪？
+		# if m==0 || m==n:
+		#    return 1
+		# 递归推进
+		#C(n,m)= C(n-1,m-1)+C(n-1,m)
+动态规划
+				
+反反爬的策略：
+	1）User-Agent池；
+	2）代理服务器池；
+	3）CookieJar等的管理；
+	4）协议的细节考虑，如：需要大量的实践经验总结的
+			  抓取数据时不处理CSS，JS等；
+			  nofollow属性；css的display属性；探测陷阱；
+			  验证refer locator等；
+	5）使用分布式的多机策略；爬慢点，把爬虫放到访问频繁的主站IP子网下，如教育网；
+	6）使用了规则来批量爬取，需对规则进行组合；
+	7）验证码的搞定：机器学习，图像识别；
+	8）尽可能遵守Robots协议；
+
+
+
+
+
+
+	
+	
+	
+	
